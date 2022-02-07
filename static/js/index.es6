@@ -1,61 +1,67 @@
 ---
 ---
-$(document).ready(() => {
-// var lei3Po8h = ["support", ["tuna", "tsinghua", "edu", "cn"].join(".")].join("@");
-// $('a#eib1gieB')
-// 	.text(lei3Po8h)
-// 	.attr('href', atob('bWFpbHRvOgo=') + lei3Po8h);
+	$(document).ready(() => {
+		// var lei3Po8h = ["support", ["tuna", "tsinghua", "edu", "cn"].join(".")].join("@");
+		// $('a#eib1gieB')
+		// 	.text(lei3Po8h)
+		// 	.attr('href', atob('bWFpbHRvOgo=') + lei3Po8h);
 
-$('.selectpicker').selectpicker()
+		$('.selectpicker').selectpicker()
 
-var mir_tmpl = $("#template").text(),
-	label_map = {
-		'syncing': 'label-info',
-		'success': 'label-success',
-		'failed': 'label-warning'
+		var mir_tmpl = $("#template").text(),
+			label_map = {
+				'syncing': 'label-info',
+				'success': 'label-success',
+				'failed': 'label-warning'
+			},
+			help_url = {
+		{% for h in site.categories['help'] %} "{{h.mirrorid}}": "{{h.url}}"{% if forloop.index < forloop.length %}, {% endif %} {% endfor %}
 	},
-	help_url = {
-		{% for h in site.categories['help'] %}"{{h.mirrorid}}": "{{h.url}}"{% if forloop.index < forloop.length %},{% endif %}{% endfor %}
+		new_mirrors = {
+		{% for n in site.new_mirrors %}"{{n}}": true{% if forloop.index < forloop.length %}, {% endif %} {% endfor %}
 	},
-	new_mirrors = {
-		{% for n in site.new_mirrors %}"{{n}}": true{% if forloop.index < forloop.length %},{% endif %}{% endfor %}
+	unlisted = [{
+		"name": "maven",
+		"is_master": true,
+		"status": "success",
+		"last_update": "-",
+		"upstream": "https://repo1.maven.org/maven2/",
+		"exitcode": 0
 	},
-
-	unlisted = {
-		"maven":{
-			"status":2,
-			"date":"-",
-			"upstream":"https://repo1.maven.org/maven2/",
-			"exitcode":0
-		},
-		"npm":{
-			"status":2,
-			"date":"-",
-			"upstream":"https://registry.npmjs.org",
-			"exitcode":0
-		},
-		"pypi":{
-			"status":2,
-			"date":"-",
-			"upstream":"https://pypi.python.org/",
-			"exitcode":0
-		},
-		"rubygems":{
-			"status":2,
-			"date":"-",
-			"upstream":"https://rubygems.org",
-			"exitcode":0
-		}
+	{
+		"name": "npm",
+		"is_master": true,
+		"status": "success",
+		"last_update": "-",
+		"upstream": "https://registry.npmjs.org",
+		"exitcode": 0
 	},
+	{
+		"name": "pypi",
+		"is_master": true,
+		"status": "success",
+		"last_update": "-",
+		"upstream": "https://pypi.python.org/",
+		"exitcode": 0
+	},
+	{
+		"name": "rubygems",
+		"is_master": true,
+		"status": "success",
+		"last_update": "-",
+		"upstream": "https://rubygems.org",
+		"exitcode": 0
+	}
+	],
 	options = {
-		'maven':{'url':"/help/maven/"},
-		'npm':{'url':"/help/npm"},
-		'pypi':{'url':"/help/pypi"},
-		'rubygems':{'url':"/help/rubygems"},
-		'homebrew':{'url':"/help/homebrew"}
+		'maven': { 'url': "/help/maven/" },
+		'npm': { 'url': "/help/npm" },
+		'pypi': { 'url': "/help/pypi" },
+		'rubygems': { 'url': "/help/rubygems" },
+		'homebrew': { 'url': "/help/homebrew" }
 	},
 	descriptions = {
-		{% for mir in site.data.mirror_desc %} '{{mir.name}}': '{{mir.desc}}' {% if forloop.index < forloop.length %},{% endif %}{% endfor %}
+		{% for mir in site.data.mirror_desc %} '{{mir.name}}': '{{mir.desc}}' {% if forloop.index < forloop.length %}, {% endif %} {% endfor %}
 	}
 
 var vmMirList = new Vue({
@@ -64,50 +70,41 @@ var vmMirList = new Vue({
 		test: "hello",
 		mirrorList: []
 	},
-	created () {
+	created() {
 		this.refreshMirrorList();
 	},
-	updated () {
+	updated() {
 		$('.mirror-item-label').popover();
 	},
 	methods: {
-		getURL (mir) {
+		getURL(mir) {
 			if (mir.url !== undefined) {
 				return mir.url
 			}
 			return `/${mir.name}/`
 		},
-		refreshMirrorList () {
+		refreshMirrorList() {
 			var self = this;
 			$.getJSON("/mirrordsync.json", (status_data) => {
-				var mirrors=[],mir_data=$.extend(status_data, unlisted);
+				var mirrors = [], mir_data = $.extend(status_data, unlisted);
 				var mir_uniq = {}; // for deduplication
-				// mir_data.sort((a, b) => { return a.name < b.name ? -1: 1 });
-				var sortable =[];
-				for (var j in mir_data){
-					sortable.push([j,mir_data[j]])
+				mir_data.sort((a, b) => { return a.name < b.name ? -1: 1 });
+				var sortable = [];
+				for (var j in mir_data) {
+					sortable.push([j, mir_data[j]])
 				}
-				sortable.sort(function(a,b){
-					return a<b ? -1:1
+				sortable.sort(function (a, b) {
+					return a < b ? -1 : 1
 				});
-				// console.log(sortable[0][1].status)
-				for(var k in sortable) {
+				for (var k in sortable) {
 					var d = sortable[k][1];
 					if (d.status == "disabled") {
 						continue;
 					}
-					d.name=sortable[k][0];
-					if (options[d.name] != undefined ) {
+					if (options[d.name] != undefined) {
 						d = $.extend(d, options[d.name]);
 					}
-					if(d.status==2&& d.exitcode==0){
-						d.status='success'
-					}else if(d.status==2&&d.exitcode!=0){
-						d.status='failed'
-					}else if(d.status==1&&d.exitcode==0){
-						d.status='syncing'
-					}
-					d.label=label_map[d.status];
+					d.label = label_map[d.status];
 					d.help_url = help_url[d.name];
 					d.is_new = new_mirrors[d.name];
 					d.description = descriptions[d.name];
@@ -115,7 +112,7 @@ var vmMirList = new Vue({
 					if (d.is_master === undefined) {
 						d.is_master = true;
 					}
-					d.last_update = d.date;
+					d.last_update = stringifyTime(d.last_update_ts);
 					if (d.name in mir_uniq) {
 						let other = mir_uniq[d.name];
 						if (other.last_update > d.last_update) {
@@ -128,7 +125,7 @@ var vmMirList = new Vue({
 					mirrors.push(mir_uniq[k]);
 				}
 				self.mirrorList = mirrors;
-				setTimeout(() => {self.refreshMirrorList()}, 10000);
+				setTimeout(() => { self.refreshMirrorList() }, 10000);
 			});
 		}
 	}
@@ -153,22 +150,33 @@ var vmIso = new Vue({     //TODO  isolist needed to be fixed
 		});
 	},
 	computed: {
-		curDistroList () {
+		curDistroList() {
 			return this.distroList
-				.filter((x)=> x.category === this.curCategory);
+				.filter((x) => x.category === this.curCategory);
 		}
 	},
 	methods: {
-		switchDistro (distro) {
+		switchDistro(distro) {
 			this.selected = distro;
 		},
-		switchCategory (category) {
+		switchCategory(category) {
 			this.curCategory = category;
 			this.selected = this.curDistroList[0];
 		}
 	}
 });
-
+var stringifyTime = function (ts) {
+	var date = new Date(ts * 1000);
+	var str = "";
+	var ago = "";
+	if (date.getFullYear() > 2000) {
+		str = `${('000' + date.getFullYear()).substr(-4)}-${('0' + (date.getMonth() + 1)).substr(-2)}-${('0' + date.getDate()).substr(-2)}` +
+			` ${('0' + date.getHours()).substr(-2)}:${('0' + date.getMinutes()).substr(-2)}`;
+	} else {
+		str = "0000-00-00 00:00";
+	}
+	return str;
+}
 });
 
 // vim: ts=2 sts=2 sw=2 noexpandtab
