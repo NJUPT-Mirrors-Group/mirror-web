@@ -41,7 +41,6 @@ new_mirrors:
     - bjlx
     - loongson
     - tensorflow
-    - elasticstack
     - postgresql
     - macports
     - chromiumos

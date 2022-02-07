@@ -17,6 +17,7 @@ $(document).ready(() => {
 	window.refreshMirrorList = () => {
 		$.getJSON("/mirrordsync.json", (status_data) => {
 			var mirrors=[], mir_data=status_data;
+			mir_data.sort((a, b) => { return a.name < b.name ? -1: 1 });
 			for(var k in mir_data) {
 				var d = mir_data[k];
 				if (d.is_master === undefined) {

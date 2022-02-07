@@ -86,16 +86,16 @@ var vmMirList = new Vue({
 		refreshMirrorList() {
 			var self = this;
 			$.getJSON("/mirrordsync.json", (status_data) => {
-				var mirrors = [], mir_data = $.extend(status_data, unlisted);
+				var mirrors = [], mir_data = status_data;
+				for (var j in unlisted) {
+					mir_data.push(unlisted[j]);
+				}
 				var mir_uniq = {}; // for deduplication
 				mir_data.sort((a, b) => { return a.name < b.name ? -1: 1 });
 				var sortable = [];
 				for (var j in mir_data) {
 					sortable.push([j, mir_data[j]])
 				}
-				sortable.sort(function (a, b) {
-					return a < b ? -1 : 1
-				});
 				for (var k in sortable) {
 					var d = sortable[k][1];
 					if (d.status == "disabled") {
