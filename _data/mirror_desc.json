@@ -1,22 +1,90 @@
 [
   {
+    "name": "anaconda",
+    "desc": "用于科学计算的 Python 发行版"
+  },
+  {
     "name": "archlinux",
     "desc": "Archlinux 的官方镜像和官方软件包仓库"
   },
   {
-    "name":"centos",
-    "desc":"rhel 的社区版，并广泛应用于各类服务器"
+    "name": "centos",
+    "desc": "rhel 的社区版，并广泛应用于各类服务器"
+  },
+  {
+    "name": "debian",
+    "desc": "Debian Linux 的官方软件包仓库"
+  },
+  {
+    "name": "debian-security",
+    "desc": "Debian Linux 的安全更新"
+  },
+  {
+    "name": "deepin",
+    "desc": "Deepin Linux 的官方软件包仓库"
+  },
+  {
+    "name": "deepin-cd",
+    "desc": "Deepin Linux 的安装镜像"
+  },
+  {
+    "name": "docker-ce",
+    "desc": "Docker Community Edition 的安装包"
+  },
+  {
+    "name": "elasticstack",
+    "desc": "ELK 系列数据分析工具，5.x 之后改名为 Elastic Stack"
+  },
+  {
+    "name": "epel",
+    "desc": "企业版 Linux 附加软件包"
+  },
+  {
+    "name": "fedora",
+    "desc": "Fedora Linux 的安装镜像和官方软件包仓库"
   },
   {
     "name": "hombrew",
     "desc": "Mac OS 上受到广泛好评的包管理工具"
   },
   {
-    "name":"homebrew-bottles",
-    "desc":"homebrew的相关二进制包"
+    "name": "homebrew-bottles",
+    "desc": "homebrew的相关二进制包"
+  },
+  {
+    "name": "kali",
+    "desc": "Kali Linux 的官方软件包仓库"
+  },
+  {
+    "name": "linuxmint",
+    "desc": "Linux Mint 的官方软件源"
+  },
+  {
+    "name": "maven",
+    "desc": "一个软件项目管理及自动构建工具"
+  },
+  {
+    "name": "npm",
+    "desc": "Node.js预设的软件包管理系统"
+  },
+  {
+    "name": "pypi",
+    "desc": "Python 软件包索引源"
+  },
+  {
+    "name": "rubygems",
+    "desc": "Ruby 的一个包管理器"
   },
   {
     "name": "ubuntu",
     "desc": "最为广泛使用的Linux镜像之一，拥有坚实的群众基础。"
+  },
+  {
+    "name": "ubuntu-releases",
+    "desc": "包含近几年发行的 Ubuntu 的镜像"
+  },
+  {
+    "name": "zabbix",
+    "desc": "著名的网络监视、管理系统"
   }
 ]
