@@ -6,6 +6,8 @@ import re
 import glob
 import json
 import logging
+import collections
+import sys
 from urllib.parse import urljoin
 from distutils.version import LooseVersion
 from configparser import ConfigParser
@@ -24,6 +26,25 @@ def getPlatformPriority(platform):
         return 0
 
 
+def renderTemplate(template, result):
+    group_count = len(result.groups()) + 1
+    for i in range(group_count):
+        template = template.replace("$%d" % i, result.group(i) or "")
+    return template
+
+
+def getSortKeys(template, result):
+    keys = []
+    for i in template.split(' '):
+        if not i:
+            continue
+        if i[0] != '$':
+            keys.append(i)
+        else:
+            keys.append(result.group(int(i[1:])) or "")
+    return keys
+
+
 def parseSection(items):
     items = dict(items)
 
@@ -40,6 +61,7 @@ def parseSection(items):
     prog = re.compile(pattern)
 
     images = []
+    images = {}
     for location in locations:
         logger.debug("[GLOB] %s", location)
 
@@ -54,33 +76,40 @@ def parseSection(items):
             else:
                 logger.debug("[MATCH] %r", result.groups())
 
-            group_count = len(result.groups()) + 1
             imageinfo = {"filepath": imagepath, "distro": items["distro"]}
 
             for prop in ("version", "type", "platform", "category"):
-                s = items.get(prop, "")
-                for i in range(0, group_count):
-                    s = s.replace("$%d" % i, result.group(i) or "")
-                imageinfo[prop] = s
+                imageinfo[prop] = renderTemplate(items.get(prop, ""), result)
+            if 'version' not in imageinfo:
+                imageinfo['version'] = '0.0'
+            sort_by = items.get("sort_by", "")
+            if not(sort_by):
+                imageinfo['sort_key'] = (imageinfo['version'], imageinfo['platform'], imageinfo['type'])
+            else:
+                imageinfo['sort_key'] = getSortKeys(sort_by, result)
 
             logger.debug("[JSON] %r", imageinfo)
-            images.append(imageinfo)
+            key = renderTemplate(items.get("key_by", ""), result)
+            if key not in images:
+                images[key] = []
+            images[key].append(imageinfo)
 
-    #images.sort(key=lambda k: ( LooseVersion(k['version']),
-    images.sort(key=lambda k: (LooseVersion(k['version']),
-                               getPlatformPriority(k['platform']),
-                               k['type']),
-                reverse=True)
+    for image_group in images.values():
+        if 'nosort' not in items:
+            image_group.sort(key=lambda k: (LooseVersion(k['version']),
+                                            getPlatformPriority(k['platform']),
+                                            k['type']),
+                             reverse=True)
 
-    i = 0
-    versions = set()
-    listvers = int(items.get('listvers', 0xFF))
-    for image in images:
-        versions.add(image['version'])
-        if len(versions) <= listvers:
-            yield image
-        else:
-            break
+        i = 0
+        versions = set()
+        listvers = int(items.get('listvers', 0xFF))
+        for image in image_group:
+            versions.add(image['version'])
+            if len(versions) <= listvers:
+                yield image
+            else:
+                break
 
 
 def getDetail(image_info, urlbase):
@@ -89,7 +118,7 @@ def getDetail(image_info, urlbase):
             image_info['version'],
             image_info['platform'],
             ", %s" % image_info['type'] if image_info['type'] else ''
-    )
+    ) if image_info['platform'] != "" else image_info['version']
 
     category = image_info.get('category', 'os') or "os"
     return (desc, url, category)
@@ -119,6 +148,10 @@ def getImageList():
     root = ini.get("%main%", 'root')
     urlbase = ini.get("%main%", 'urlbase')
 
+    if len(sys.argv) > 1:
+        # Allow to override root in command-line
+        root = sys.argv[1]
+
     prior = {}
     for (name, value) in ini.items("%main%"):
         if re.match("d\d+$", name):
@@ -127,22 +160,25 @@ def getImageList():
     oldcwd = os.getcwd()
     os.chdir(root)
 
-    url_dict = {}
+    img_dict = collections.defaultdict(list)
     for section in ini.sections():
         if section == "%main%":
             continue
         for image in parseSection(ini.items(section)):
-            if not image['distro'] in url_dict:
-                url_dict[image['distro']] = []
+            img_dict[image['distro']].append(image)
 
-            url_dict[image['distro']].append(
-                    getDetail(image, urlbase)
-            )
+    url_dict = {}
+    for distro, images in img_dict.items():
+        images.sort(key=lambda x: x['sort_key'], reverse=True)
+        logger.debug("[IMAGES] %r %r", distro, images)
+        url_dict[distro] = [getDetail(image, urlbase) for image in images]
 
     os.chdir(oldcwd)
 
     return getJsonOutput(url_dict, prior)
 
+
 if __name__ == "__main__":
     import sys
+    logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
     print(getImageList())
