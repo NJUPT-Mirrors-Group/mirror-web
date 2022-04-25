@@ -72,6 +72,10 @@
     "desc": "Python 软件包索引源"
   },
   {
+    "name": "raspbian",
+    "desc": "基于Debian的树莓派操作系统"
+  },
+  {
     "name": "rubygems",
     "desc": "Ruby 的一个包管理器"
   },
