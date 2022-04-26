@@ -27,7 +27,7 @@ permalink: /
 							<tr v-for="mir in mirrorList" :class="['row', 'status-'+mir.status]">
 								<template v-if="mir.is_master">
 									<td class="col-md-8">
-										<a class="mirror-item-label"  data-toggle="popover" data-trigger="hover" data-placement="right"
+										<a class="mirror-item-label" data-toggle="popover" data-trigger="hover" data-placement="right"
 											:data-content="mir.description" :href="getURL(mir)">
 											{{mir.name}}
 											<span class="label label-new" v-if='mir.is_new'>new</span>
@@ -35,9 +35,10 @@ permalink: /
 										</a>
 									</td>
 									<td class="col-md-4">
-										{{mir.last_update}}<span v-if="mir.show_status" :class="['label', 'label-status', mir.label, 'hidden-xs']">{{mir.status}}</span>
+										{{mir.last_update}}<span v-if="mir.show_status"
+											:class="['label', 'label-status', mir.label, 'hidden-xs']">{{mir.status}}</span>
 									</td>
-									</template>
+								</template>
 							</tr>
 						</tbody>
 					</table>
@@ -58,7 +59,8 @@ permalink: /
 						<h4><span class="fa fa-bullhorn"></span> 新闻公告 </h4>
 						<ul>
 							{% for news in site.categories.news limit: 1%}
-							<li><a href="/news/#{{news.slug}}"><strong>{{news.date | date: "%Y-%m-%d"}}</strong> {{news.title}}</a></li>
+							<li><a href="/news/#{{news.slug}}"><strong>{{news.date | date: "%Y-%m-%d"}}</strong> {{news.title}}</a>
+							</li>
 							{% endfor %}
 						</ul>
 						<div class="text-right"><a href="/news/"> more <span class="fa fa-angle-double-right"></span> </a></div>
@@ -67,16 +69,18 @@ permalink: /
 						<h4><span class="fa fa-file-archive-o"></span> 下载链接 </h4>
 						<p>常用发行版 iso 和应用工具安装包直接下载</p>
 						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#isoModal">
-								获取下载链接
-							</button>
+							获取下载链接
+						</button>
 					</div>
 					<div>
 						<h4> <span class="fa fa-envelope-o"></span> 联系我们 </h4>
 						<ul>
 							<li><strong>意见反馈</strong> <br />
-							 <a href="https://github.com/NJUPT-Mirrors-Group/issues">https://github.com/NJUPT-Mirrors-Group/issues</a></li>
+								<a
+									href="https://github.com/NJUPT-Mirrors-Group/issues">https://github.com/NJUPT-Mirrors-Group/issues</a>
+							</li>
 							<li><strong>发送邮件</strong> <br />
-								<a href="Mailto:mirrors@njupt.edu.cn">mirrors@njupt.edu.cn</a>  
+								<a href="Mailto:mirrors@njupt.edu.cn">mirrors@njupt.edu.cn</a>
 							</li>
 						</ul>
 					</div>
@@ -104,16 +108,18 @@ permalink: /
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
+						<span aria-hidden="true">&times;</span>
+					</button>
 					<h4 class="modal-title" id="isoModalLabel">获取安装镜像</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12">
 							<ul class="nav nav-tabs">
-								<li role="presentation" :class="[curCategory === 'os' ? 'active' : '']" @click="switchCategory('os')"><a href="#">操作系统</a></li>
-								<li role="presentation" :class="[curCategory === 'app' ? 'active' : '']" @click="switchCategory('app')"><a href="#">应用软件</a></li>
+								<li role="presentation" :class="[curCategory === 'os' ? 'active' : '']" @click="switchCategory('os')"><a
+										href="#">操作系统</a></li>
+								<li role="presentation" :class="[curCategory === 'app' ? 'active' : '']" @click="switchCategory('app')">
+									<a href="#">应用软件</a></li>
 							</ul>
 						</div>
 						<div class="col-md-3">
@@ -127,7 +133,7 @@ permalink: /
 							<h3>{{selected.distro}}</h3>
 							<ul>
 								<template v-for="url in selected.urls">
-								<li><a :href="url.url">{{url.name}}</a></li>
+									<li><a :href="url.url">{{url.name}}</a></li>
 								</template>
 							</ul>
 						</div>
