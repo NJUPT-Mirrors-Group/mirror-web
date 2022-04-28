@@ -80,6 +80,10 @@
     "desc": "Ruby 的一个包管理器"
   },
   {
+    "name": "termux",
+    "desc": "运行在 Android 上的终端模拟器 Termux 的官方软件包仓库"
+  },
+  {
     "name": "ubuntu",
     "desc": "最为广泛使用的Linux镜像之一，拥有坚实的群众基础。"
   },
