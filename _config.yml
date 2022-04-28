@@ -11,6 +11,7 @@ brand: NJUPT Open Source Mirrors
 baseurl: "" # the subpath of your site, e.g. /blog
 permalink: "/:categories/:title/"
 url: "https://mirrors.njupt.edu.cn"
+hostname: "mirrors.njupt.edu.cn"
 
 # Build settings
 highlighter: rouge
