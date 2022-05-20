@@ -58,7 +58,7 @@ permalink: /
 					<div id="news">
 						<h4><span class="fa fa-bullhorn"></span> 新闻公告 </h4>
 						<ul>
-							{% for news in site.categories.news limit: 1%}
+							{% for news in site.categories.news limit: 2%}
 							<li><a href="/news/#{{news.slug}}"><strong>{{news.date | date: "%Y-%m-%d"}}</strong> {{news.title}}</a>
 							</li>
 							{% endfor %}
