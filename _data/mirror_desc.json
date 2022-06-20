@@ -8,6 +8,10 @@
     "desc": "Archlinux 的官方镜像和官方软件包仓库"
   },
   {
+      "name": "bioarchlinux"
+      "desc": "ArchLinux Community for Biologists and ArchLinux Repository for Biological Software"
+  },
+  {
     "name": "centos",
     "desc": "rhel 的社区版，并广泛应用于各类服务器"
   },
