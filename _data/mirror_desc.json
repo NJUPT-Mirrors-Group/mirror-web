@@ -8,7 +8,7 @@
     "desc": "Archlinux 的官方镜像和官方软件包仓库"
   },
   {
-      "name": "bioarchlinux"
+      "name": "bioarchlinux",
       "desc": "ArchLinux Community for Biologists and ArchLinux Repository for Biological Software"
   },
   {
