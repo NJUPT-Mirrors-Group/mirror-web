@@ -20,7 +20,9 @@
 		new_mirrors = {
 		{% for n in site.new_mirrors %}"{{n}}": true{% if forloop.index < forloop.length %}, {% endif %} {% endfor %}
 	},
-	unlisted = [{
+	unlisted = [
+	/*
+	{
 		"name": "maven",
 		"is_master": true,
 		"status": "success",
@@ -52,6 +54,7 @@
 		"upstream": "https://rubygems.org",
 		"exitcode": 0
 	}
+	*/
 	],
 	options = {
 		'maven': { 'url': "/help/maven/" },
