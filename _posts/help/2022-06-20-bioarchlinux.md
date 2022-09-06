@@ -1,7 +1,7 @@
 ---
 layout: help
 category: help
-mirrorid: anaconda
+mirrorid: bioarchlinux
 ---
 
 ## BioArchLinux 镜像使用帮助
