@@ -45,8 +45,9 @@ new_mirrors:
     - postgresql
     - macports
     - chromiumos
-    # 以下为最新
     - bioarchlinux
+    # 以下为最新
+    - alpine
 
 
 # vim: ts=2 sts=2 sw=2 expandtab
