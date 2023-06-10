@@ -1,6 +1,7 @@
 # robots.txt for https://mirrors.njupt.edu.cn
 User-agent: *
 
+Disallow: /mirrors
 Disallow: /AOSP
 Disallow: /CRAN
 Disallow: /CTAN
