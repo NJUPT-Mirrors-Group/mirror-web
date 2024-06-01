@@ -96,6 +96,7 @@ Disallow: /remi
 Disallow: /repo-ck
 Disallow: /repoforge
 Disallow: /ros
+Disallow: /ros2
 Disallow: /rpmfusion
 Disallow: /rubygems
 Disallow: /sagemath

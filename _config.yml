@@ -34,20 +34,21 @@ exclude: [Gemfile, Gemfile.lock, README.md, gen_robot.sh, vendor, geninfo/, gen_
 
 # Content Related
 new_mirrors:
-    - arch4edu
+    # - arch4edu
     - ros
-    - elvish
-    - HHVM
-    - steamos
-    - bjlx
-    - loongson
-    - tensorflow
-    - postgresql
-    - macports
-    - chromiumos
-    - bioarchlinux
-    # 以下为最新
-    - alpine
+    - ros2
+    # - elvish
+    # - HHVM
+    # - steamos
+    # - bjlx
+    # - loongson
+    # - tensorflow
+    # - postgresql
+    # - macports
+    # - chromiumos
+    # - bioarchlinux
+    # # 以下为最新
+    # - alpine
 
 
 # vim: ts=2 sts=2 sw=2 expandtab
