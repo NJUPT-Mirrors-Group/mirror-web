@@ -1,0 +1,16 @@
+---
+category: news
+layout: news
+title: "南邮镜像站添加 Ubuntu Ports 镜像"
+author: nkid00
+---
+
+# 南邮镜像站添加 Ubuntu Ports 镜像
+
+感谢 `@invinciblesmalltree` 的建议，南邮镜像站即日起添加 Ubuntu Ports 镜像。
+
+Ubuntu Ports 镜像的使用请参照 MirrorZ Help 的 [Ubuntu Ports 软件仓库镜像使用帮助](https://help.mirrorz.org/ubuntu-ports/)。
+
+感谢各位用户对南邮镜像站的支持，如在使用过程中遇到问题或有建议，请
+- 发送邮件至 mirrors@njupt.edu.cn
+- 在[这里](https://github.com/NJUPT-Mirrors-Group/issues/)提交你的问题
